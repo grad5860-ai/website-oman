@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رحلة في عالم النباتات العُمانية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2d5a27;
+            --light-green: #e8f5e9;
+            --accent-green: #4caf50;
+            --sand-beige: #f4f1ea;
+            --earth-brown: #6d4c41;
+            --text-dark: #2c3e50;
+            --text-muted: #546e7a;
+            --white: #ffffff;
+            --correct-color: #2e7d32;
+            --correct-bg: #e8f5e9;
+            --wrong-color: #c62828;
+            --wrong-bg: #ffebee;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--sand-beige);
+            color: var(--text-dark);
+            line-height: 1.7;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(45, 90, 39, 0.85), rgba(45, 90, 39, 0.75)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: var(--white);
+            padding: 5rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-green);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-green);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Plant Grid */
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .plant-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .plant-img-placeholder {
+            height: 200px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 1rem;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .plant-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plant-name {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 0.2rem;
+        }
+
+        .scientific-name {
+            font-style: italic;
+            color: var(--earth-brown);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .plant-summary {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .btn-card {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            text-align: center;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-card:hover {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* Modal Details */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            border: none;
+            background: none;
+        }
+
+        .modal-title {
+            color: var(--primary-green);
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-section {
+            margin-top: 1.2rem;
+        }
+
+        .modal-section h4 {
+            color: var(--earth-brown);
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 0.2rem;
+        }
+
+        .modal-section ul {
+            list-style-position: inside;
+            margin-right: 0.5rem;
+        }
+
+        .highlight-box {
+            background-color: var(--light-green);
+            padding: 0.8rem 1rem;
+            border-right: 4px solid var(--accent-green);
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background-color: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-start {
+            text-align: center;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-green);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            background-color: var(--sand-beige);
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            font-size: 1.05rem;
+            text-align: right;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--accent-green);
+            background-color: var(--light-green);
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg);
+            border-color: var(--correct-color);
+            color: var(--correct-color);
+            font-weight: 700;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg);
+            border-color: var(--wrong-color);
+            color: var(--wrong-color);
+            font-weight: 700;
+        }
+
+        .explanation-box {
+            display: none;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .explanation-box.correct {
+            background-color: var(--correct-bg);
+            color: var(--correct-color);
+            border-right: 4px solid var(--correct-color);
+        }
+
+        .explanation-box.wrong {
+            background-color: var(--wrong-bg);
+            color: var(--wrong-color);
+            border-right: 4px solid var(--wrong-color);
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .quiz-result {
+            display: none;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem auto;
+            border: 4px solid var(--accent-green);
+        }
+
+        .score-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-percentage {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .result-message {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background-color: var(--earth-brown);
+        }
+
+        .btn-secondary:hover {
+            background-color: #4e3629;
+        }
+
+        /* Sources Section */
+        .sources-section {
+            background-color: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-green);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .quiz-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌿 رحلة في عالم النباتات العُمانية</div>
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#plants">اكتشف النباتات</a></li>
+                <li><a href="#quiz">اختبر معلوماتك</a></li>
+                <li><a href="#sources">المصادر</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero / Main Header -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>رحلة في عالم النباتات العُمانية</h1>
+            <p>اكتشف أسرار النباتات، وتعرّف على خصائصها، ثم اختبر معلوماتك في تحدٍّ تفاعلي.</p>
+            <a href="#plants" class="btn">ابدأ الاستكشاف</a>
+        </div>
+    </section>
+
+    <!-- Plant Discovery Section -->
+    <section id="plants" class="container">
+        <h2 class="section-title">اكتشف النباتات العُمانية</h2>
+        <div class="plant-grid">
+
+            <!-- Card 1: Beetroot -->
+            <div class="plant-card">
+                <div class="plant-img-placeholder" style="background-image: url('https://images.unsplash.com/photo-1593105544559-ecb03ab26232?auto=format&fit=crop&w=600&q=80'); color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                    البنجر (Beta vulgaris)
+                </div>
+                <div class="plant-body">
+                    <h3 class="plant-name">البنجر</h3>
+                    <div class="scientific-name">Beta vulgaris</div>
+                    <p class="plant-summary">نبات عشبي يُزرع في معظم مناطق سلطنة عُمان، يعود موطنه الأصلي إلى أوروبا وشمال إفريقيا، ويتميز بجذره المتضخم الغني بالأصباغ.</p>
+                    <button class="btn-card" onclick="openModal('beetroot')">اكتشف المزيد</button>
+                </div>
+            </div>
+
+            <!-- Card 2: Mango -->
+            <div class="plant-card">
+                <div class="plant-img-placeholder" style="background-image: url('https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80'); color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                    الأمبا (Mangifera indica)
+                </div>
+                <div class="plant-body">
+                    <h3 class="plant-name">الأمبا (المانجو)</h3>
+                    <div class="scientific-name">Mangifera indica</div>
+                    <p class="plant-summary">شجرة فاكهة موطنها جنوب شرق آسيا، وتتركز زراعتها في محافظتي شمال وجنوب الباطنة ولها حضور بارز في التراث العُماني.</p>
+                    <button class="btn-card" onclick="openModal('mango')">اكتشف المزيد</button>
+                </div>
+            </div>
+
+            <!-- Card 3: Dragon Fruit -->
+            <div class="plant-card">
+                <div class="plant-img-placeholder" style="background-image: url('https://images.unsplash.com/photo-1527325678964-54921646f988?auto=format&fit=crop&w=600&q=80'); color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                    فاكهة التنين (Hylocereus undatus)
+                </div>
+                <div class="plant-body">
+                    <h3 class="plant-name">فاكهة التنين</h3>
+                    <div class="scientific-name">Hylocereus undatus</div>
+                    <p class="plant-summary">نبات عشبي زاحف أو متسلق، أُدخلت زراعته إلى عُمان في مزارع السلطان قابوس بن سعيد، ويتميز بساقه اللحمية وثماره الفريدة.</p>
+                    <button class="btn-card" onclick="openModal('dragon')">اكتشف المزيد</button>
+                </div>
+            </div>
+
+            <!-- Card 4: Papaya -->
+            <div class="plant-card">
+                <div class="plant-img-placeholder" style="background-image: url('https://images.unsplash.com/photo-1517260739337-6799d239ce83?auto=format&fit=crop&w=600&q=80'); color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                    الباباظ (Carica papaya)
+                </div>
+                <div class="plant-body">
+                    <h3 class="plant-name">الباباظ</h3>
+                    <div class="scientific-name">Carica papaya</div>
+                    <p class="plant-summary">نبات عشبي شبيه بالأشجار وسريع النمو، تتركز زراعته بسواحل ظفار والباطنة، وتتحول ثماره إلى البرتقالي عند النضج.</p>
+                    <button class="btn-card" onclick="openModal('papaya')">اكتشف المزيد</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modals for Full Plant Details -->
+    <div id="plant-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Interactive Quiz Section -->
+    <section id="quiz" class="container">
+        <h2 class="section-title">تحدي النباتات العُمانية — 10 أسئلة</h2>
+        
+        <div class="quiz-container">
+            <!-- Start Screen -->
+            <div id="quiz-start" class="quiz-start">
+                <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">اختبر حصيلتك المعرفية التي اكتسبتها عن النباتات العُمانية الأربعة في هذا التحدي التفاعلي.</p>
+                <button class="btn" onclick="startQuiz()">ابدأ التحدي</button>
+            </div>
+
+            <!-- Active Question Screen -->
+            <div id="quiz-body" style="display: none;">
+                <div class="quiz-header">
+                    <span id="question-number">السؤال 1 من 10</span>
+                    <span id="score-display">النقاط: 0</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+
+                <div id="question-text" class="question-text">نص السؤال هنا</div>
+
+                <div id="options-grid" class="options-grid">
+                    <!-- Options buttons populated dynamically -->
+                </div>
+
+                <div id="explanation-box" class="explanation-box"></div>
+
+                <div class="quiz-actions">
+                    <button id="next-btn" class="btn" style="display: none;" onclick="nextQuestion()">السؤال التالي</button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="quiz-result" class="quiz-result">
+                <h3>أحسنت! انتهيت من التحدي</h3>
+                <div class="score-circle">
+                    <span id="final-score" class="score-number">0 / 10</span>
+                    <span id="final-percent" class="score-percentage">0%</span>
+                </div>
+                <p id="result-message" class="result-message">رسالة النتيجة</p>
+                <div class="result-actions">
+                    <button class="btn" onclick="startQuiz()">إعادة اللعب</button>
+                    <a href="#plants" class="btn btn-secondary">العودة إلى النباتات</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sources & Documentation -->
+    <section id="sources" class="container">
+        <div class="sources-section">
+            <h3 style="color: var(--primary-green); margin-bottom: 1rem;">المصادر والتوثيق</h3>
+            <p>تم استخلاص كافة المعلومات الموثقة والأسئلة العلمية الواردة في هذا المشروع التفاعلي من:</p>
+            <ul style="margin-right: 1.5rem; margin-top: 0.5rem; color: var(--text-dark);">
+                <li><strong>المصدر الرسمي:</strong> الموسوعة العُمانية.</li>
+                <li><strong>رقم المجلد:</strong> [سيتم إضافته لاحقاً]</li>
+                <li><strong>رقم الصفحة:</strong> [سيتم إضافته لاحقاً]</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>مشروع «رحلة في عالم النباتات العُمانية» — موقع تعليمي تفاعلي استناداً إلى الموسوعة العُمانية © 2026</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Plant Data
+        const plantData = {
+            beetroot: {
+                title: "البنجر",
+                scientific: "Beta vulgaris",
+                otherNames: "بنجر المائدة، الشمندر، الشوندر.",
+                summary: "البنجر نبات عشبي يُزرع في معظم مناطق سلطنة عُمان. يعود موطنه الأصلي إلى أوروبا وشمال إفريقيا. يتميز بجذره المتضخم الذي تختلف ألوانه بين الأحمر المائل إلى البرتقالي والأحمر القاتم، وتعود ألوانه المميزة إلى أصباغ البيتالينات.",
+                farming: [
+                    "يُزرع محصولاً شتويًا في عُمان من سبتمبر إلى نوفمبر.",
+                    "تنضج جذوره عادة بعد شهرين إلى ثلاثة أشهر، بحسب الظروف البيئية.",
+                    "يتحمل ملوحة التربة ومياه الري بدرجة مرتفعة مقارنة بكثير من محاصيل الخضر.",
+                    "يمكن زراعته مباشرة بالبذور."
+                ],
+                uses: [
+                    "يؤكل طازجًا مع السلطة.",
+                    "تُستخدم بعض أصنافه علفًا للحيوانات.",
+                    "يُستعمل مصدرًا للأصباغ الحمراء في بعض الأغذية والمشروبات ومستحضرات التجميل.",
+                    "احتواؤه على مجموعة من الفيتامينات والمعادن."
+                ],
+                fact: "اللون الأحمر القرمزي المميز للبنجر يرتبط بأصباغ تسمى البيتاسيانينات."
+            },
+            mango: {
+                title: "الأمبا (المانجو)",
+                scientific: "Mangifera indica",
+                otherNames: "أمبا، مانجو، همبا، لمبا.",
+                summary: "الأمبا شجرة فاكهة يُرجح أن موطنها الأصلي جنوب شرق آسيا. تُزرع في أنحاء سلطنة عُمان، وتتركز زراعتها في محافظتي شمال الباطنة وجنوب الباطنة.",
+                description: [
+                    "يتراوح ارتفاع الشجرة بين 10 و20 مترًا.",
+                    "تبدأ أوراقها الجديدة باللون الأحمر أو القرنفلي ثم تتحول إلى الأخضر.",
+                    "تختلف ألوان الثمار وأحجامها وأشكالها باختلاف الصنف.",
+                    "تضم الأصناف المحلية العُمانية أسماء مثل الحلقوم والخوخ وأم الكيزان وزنجباري أحمر."
+                ],
+                farming: [
+                    "تحتاج الأشجار إلى الري المناسب بحسب عمرها والظروف البيئية.",
+                    "تُعد ملوحة مياه الري من المعوقات التي تواجه زراعتها في عُمان، خاصة في شمال الباطنة.",
+                    "يمكن إكثارها بالبذور أو بالطرق الخضرية."
+                ],
+                uses: [
+                    "تؤكل الثمار بعد نضجها.",
+                    "تؤكل الثمار الخضراء غير الناضجة بتتبيلة الشواء في بعض مناطق عُمان.",
+                    "استخدام أوراق الشجرة وقلفها في الدباغة.",
+                    "ورد ذكر الأمبا في الأقوال العُمانية المأثورة."
+                ],
+                fact: "أدخل السلطان فلاح بن محسن النبهاني الأمبا إلى عُمان من الهند وزرعها في مقنيات خلال الفترة 1580–1587م."
+            },
+            dragon: {
+                title: "فاكهة التنين",
+                scientific: "Hylocereus undatus",
+                otherNames: "البيتاهايا، فاكهة التنين.",
+                summary: "فاكهة التنين نبات عشبي زاحف أو متسلق، ينتشر في المناطق الاستوائية وشبه الاستوائية. أُدخلت زراعته إلى عُمان في مزارع السلطان قابوس بن سعيد.",
+                description: [
+                    "له ساق لحمية.",
+                    "ثماره مستديرة وحمراء ذات قشرة غليظة.",
+                    "قد يكون اللب أبيض أو أحمر.",
+                    "تحتوي الثمار على بذور صغيرة سوداء."
+                ],
+                farming: [
+                    "يتكاثر بالبذور أو بالعقل الساقية."
+                ],
+                uses: [
+                    "تؤكل ثماره طازجة أو مثلجة.",
+                    "يمكن طهي البراعم الغضة وتناولها بوصفها من الخضروات."
+                ],
+                fact: "يمكن الاستفادة من براعم فاكهة التنين الغضة، وليس الثمار وحدها، في الطعام."
+            },
+            papaya: {
+                title: "الباباظ",
+                scientific: "Carica papaya",
+                otherNames: "فافا، فافاي، فيفاي.",
+                summary: "الباباظ نبات عشبي شبيه بالأشجار، دائم الخضرة وسريع النمو وقصير العمر. يتراوح ارتفاعه بين مترين وعشرة أمتار بحسب الصنف. تتركز زراعته في عُمان على سواحل محافظات ظفار وجنوب الباطنة وشمال الباطنة.",
+                description: [
+                    "ساقه مستقيمة وأسطوانية ومجوفة.",
+                    "أوراقه كبيرة ومفصصة، وقد يصل طول الورقة إلى 60 سم.",
+                    "تتحول الثمار من الأخضر إلى الأصفر ثم البرتقالي عند النضج.",
+                    "تحتوي الثمار على لب طري وبذور عديدة داخل تجويف داخلي."
+                ],
+                farming: [
+                    "ينتشر في المناطق الاستوائية وشبه الاستوائية.",
+                    "يتكاثر بالبذور أو بالطرق الخضرية.",
+                    "يحتاج إلى الدفء، ويتأثر نموه بالبرودة الشديدة."
+                ],
+                uses: [
+                    "تؤكل ثماره طازجة.",
+                    "يدخل في صناعة المشروبات والحلويات والمربى.",
+                    "تحتوي العصارة اللبنية للثمار غير الناضجة على إنزيم الباباين الذي يُستخدم في تطبيقات طبية وصناعية وغذائية."
+                ],
+                fact: "قد يتراوح وزن ثمرة الباباظ بين 250 غرامًا و3 كيلوغرامات بحسب المصدر."
+            }
+        };
+
+        // Modal Functionality
+        function openModal(plantKey) {
+            const data = plantData[plantKey];
+            const modalBody = document.getElementById('modal-body');
+            
+            let listToHTML = (list) => list ? `<ul>${list.map(i => `<li>${i}</li>`).join('')}</ul>` : '';
+
+            modalBody.innerHTML = `
+                <h2 class="modal-title">${data.title}</h2>
+                <div class="scientific-name">${data.scientific}</div>
+                <p><strong>الأسماء الأخرى:</strong> ${data.otherNames}</p>
+                
+                <div class="modal-section">
+                    <h4>الملخص العلمي</h4>
+                    <p>${data.summary}</p>
+                </div>
+
+                ${data.description ? `
+                <div class="modal-section">
+                    <h4>الوصف والخصائص</h4>
+                    ${listToHTML(data.description)}
+                </div>` : ''}
+
+                <div class="modal-section">
+                    <h4>الزراعة والبيئة</h4>
+                    ${listToHTML(data.farming)}
+                </div>
+
+                <div class="modal-section">
+                    <h4>الأهمية والاستخدامات</h4>
+                    ${listToHTML(data.uses)}
+                </div>
+
+                <div class="highlight-box">
+                    💡 <strong>معلومة مميزة:</strong> ${data.fact}
+                </div>
+            `;
+            document.getElementById('plant-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('plant-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('plant-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Quiz Questions Data (Strict 10 Questions)
+        const quizQuestions = [
+            {
+                question: "ما الاسم العلمي للبنجر؟",
+                options: ["Carica papaya", "Beta vulgaris", "Mangifera indica", "Hylocereus undatus"],
+                correct: 1,
+                explanation: "هذا هو الاسم العلمي للبنجر الوارد في المادة المصدرية."
+            },
+            {
+                question: "في أي فترة يُزرع البنجر محصولًا شتويًا في عُمان وفق النص؟",
+                options: ["من مارس إلى مايو", "من يونيو إلى أغسطس", "من سبتمبر إلى نوفمبر", "من ديسمبر إلى فبراير"],
+                correct: 2,
+                explanation: "يذكر النص أن موسم زراعته الشتوي في عُمان يبدأ من سبتمبر وينتهي في نوفمبر."
+            },
+            {
+                question: "ما الصبغة المرتبطة باللون الأحمر القرمزي المميز للبنجر؟",
+                options: ["البيتاسيانينات", "الكلوروفيل", "الميلانين", "الكاروتين فقط"],
+                correct: 0,
+                explanation: "يوضح النص أن البيتاسيانينات ذات لون أحمر قرمزي، وهي إحدى مجموعات أصباغ البيتالينات."
+            },
+            {
+                question: "ما الاسم العلمي للأمبا (المانجو)؟",
+                options: ["Beta vulgaris", "Carica papaya", "Hylocereus undatus", "Mangifera indica"],
+                correct: 3,
+                explanation: "هذا هو الاسم العلمي للأمبا كما ورد في المادة."
+            },
+            {
+                question: "في أي محافظتين تتركز زراعة الأمبا في سلطنة عُمان؟",
+                options: ["ظفار والوسطى", "شمال الباطنة وجنوب الباطنة", "مسقط والداخلية", "البريمي والظاهرة"],
+                correct: 1,
+                explanation: "يذكر النص أن زراعة الأمبا تتركز في محافظتي شمال الباطنة وجنوب الباطنة."
+            },
+            {
+                question: "ما الصفة التي تميز ساق فاكهة التنين وفق الوصف الوارد؟",
+                options: ["خشبية شديدة الصلابة", "مجوفة بالكامل ورفيعة", "لحمية", "مغطاة بأوراق عريضة كبيرة"],
+                correct: 2,
+                explanation: "يصف المصدر ساق فاكهة التنين بأنها ساق لحمية."
+            },
+            {
+                question: "كيف يمكن إكثار فاكهة التنين؟",
+                options: ["بالبذور أو العقل الساقية", "بالأوراق فقط", "بالجذور فقط", "بالأزهار فقط"],
+                correct: 0,
+                explanation: "يذكر النص طريقتين لإكثار فاكهة التنين: البذور والعقل الساقية."
+            },
+            {
+                question: "ما التغير اللوني الذي يحدث لثمرة الباباظ عند نضجها؟",
+                options: ["من الأحمر إلى الأزرق", "من الأبيض إلى الأخضر", "من الأسود إلى البنفسجي", "من الأخضر إلى الأصفر ثم البرتقالي"],
+                correct: 3,
+                explanation: "يتغير لون غلاف الثمرة تدريجيًا مع النضج وفق وصف المصدر."
+            },
+            {
+                question: "ما الإنزيم الموجود في العصارة اللبنية لثمار الباباظ غير الناضجة؟",
+                options: ["البيتالين", "الباباين", "الكلوروفيل", "التانين"],
+                correct: 1,
+                explanation: "يذكر المصدر أن العصارة اللبنية للثمار غير الناضجة تحتوي على إنزيم الباباين."
+            },
+            {
+                question: "أي النباتات التالية يُذكر أن جذوره المتضخمة تؤكل، وتُستخدم أيضًا مصدرًا للأصباغ الحمراء؟",
+                options: ["الأمبا", "الباباظ", "البنجر", "فاكهة التنين"],
+                correct: 2,
+                explanation: "يوضح النص أن الجزء المتضخم من جذر البنجر يُستهلك غذائيًا، كما يُستخدم النبات مصدرًا للأصباغ الحمراء."
+            }
+        ];
+
+        // Quiz State
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('quiz-start').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'none';
+            document.getElementById('quiz-body').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = quizQuestions[currentQuestionIndex];
+            
+            document.getElementById('question-number').innerText = `السؤال ${currentQuestionIndex + 1} من 10`;
+            document.getElementById('score-display').innerText = `النقاط: ${score}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+            document.getElementById('question-text').innerText = q.question;
+            
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index);
+                optionsGrid.appendChild(btn);
+            });
+
+            const expBox = document.getElementById('explanation-box');
+            expBox.style.display = 'none';
+            expBox.className = 'explanation-box';
+
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizQuestions[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.option-btn');
+            const expBox = document.getElementById('explanation-box');
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === q.correct) {
+                score++;
+                buttons[selectedIndex].classList.add('correct');
+                expBox.innerHTML = `<strong>إجابة صحيحة!</strong> ${q.explanation}`;
+                expBox.classList.add('correct');
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[q.correct].classList.add('correct');
+                expBox.innerHTML = `<strong>إجابة خاطئة!</strong> الإجابة الصحيحة هي: (${q.options[q.correct]}). <br>${q.explanation}`;
+                expBox.classList.add('wrong');
+            }
+
+            document.getElementById('score-display').innerText = `النقاط: ${score}`;
+            expBox.style.display = 'block';
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-body').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'block';
+
+            document.getElementById('final-score').innerText = `${score} / 10`;
+            const percent = (score / 10) * 100;
+            document.getElementById('final-percent').innerText = `${percent}%`;
+
+            let msg = "";
+            if (score <= 3) {
+                msg = "بداية جميلة! استكشف النباتات مرة أخرى وحاول من جديد.";
+            } else if (score <= 6) {
+                msg = "أداء جيد! بعض المعلومات الإضافية ستساعدك على التقدم.";
+            } else if (score <= 9) {
+                msg = "ممتاز! لديك معرفة جيدة بالنباتات العُمانية.";
+            } else {
+                msg = "رائع! حققت الدرجة الكاملة وأتقنت التحدي.";
+            }
+
+            document.getElementById('result-message').innerText = msg;
+        }
+    </script>
+</body>
+</html>
